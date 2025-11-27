@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro Profesores</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        input { display: block; margin-bottom: 10px; padding: 8px; width: 300px; }
+    </style>
+</head>
+<body>
+    <h2>Registro de Profesores</h2>
+    <input type="text" id="rut" placeholder="RUT">
+    <input type="text" id="nombre" placeholder="Nombre" oninput="generarCorreo()">
+    <input type="text" id="apellido" placeholder="Apellidos" oninput="generarCorreo()">
+    
+    <label>Correo (Automático):</label>
+    <input type="text" id="correo" readonly>
+    
+    <input type="password" id="password" placeholder="Contraseña">
+    <button onclick="guardarProfesor()">Guardar</button>
+    <br><br>
+    <a href="index.html">Volver al inicio</a>
+
+    <script>
+        function generarCorreo() {
+            const nombre = document.getElementById('nombre').value.trim().toLowerCase();
+            const apellido = document.getElementById('apellido').value.trim().toLowerCase();
+            const dominio = "@profesores.crecermas.cl"; // Dominio profesores
+            
+            if (nombre && apellido) {
+                document.getElementById('correo').value = nombre + apellido.charAt(0) + dominio;
+            }
+        }
+
+        function guardarProfesor() {
+            const rut = document.getElementById('rut').value;
+            const correo = document.getElementById('correo').value;
+            const pass = document.getElementById('password').value;
+
+            if(!rut || !correo || !pass) return alert("Complete todos los campos");
+
+            let profesores = JSON.parse(localStorage.getItem('db_profesores')) || [];
+            profesores.push({ rut, correo, pass });
+            localStorage.setItem('db_profesores', JSON.stringify(profesores));
+            
+            alert("Profesor registrado con éxito");
+            window.location.href = 'login_profesores.html';
+        }
+    </script>
+</body>
+</html>

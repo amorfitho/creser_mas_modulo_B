@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Login Estudiantes</title>
+    <style>body { font-family: Arial, sans-serif; padding: 20px; text-align: center; }</style>
+</head>
+<body>
+    <h2>Login Estudiantes</h2>
+    <input type="text" id="correo" placeholder="correo@crecermas.cl"><br><br>
+    <input type="password" id="password" placeholder="Contraseña"><br><br>
+    <button onclick="login()">Ingresar</button>
+    <br><br>
+    <a href="index.html">Volver</a>
+
+    <script>
+        function login() {
+            const correo = document.getElementById('correo').value;
+            const pass = document.getElementById('password').value;
+
+            // Validación de dominio
+            if (!correo.endsWith('@crecermas.cl')) {
+                return alert("El correo debe tener dominio @crecermas.cl");
+            }
+
+            const estudiantes = JSON.parse(localStorage.getItem('db_estudiantes')) || [];
+            const usuario = estudiantes.find(u => u.correo === correo && u.pass === pass);
+
+            if (usuario) {
+                window.location.href = 'cursos_estudiantes.html';
+            } else {
+                alert("Credenciales incorrectas o usuario no registrado");
+            }
+        }
+    </script>
+</body>
+</html>

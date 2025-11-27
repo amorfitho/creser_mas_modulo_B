@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Login Profesores</title>
+    <style>body { font-family: Arial, sans-serif; padding: 20px; text-align: center; }</style>
+</head>
+<body>
+    <h2>Login Profesores</h2>
+    <input type="text" id="correo" placeholder="correo@profesores.crecermas.cl"><br><br>
+    <input type="password" id="password" placeholder="Contraseña"><br><br>
+    <button onclick="login()">Ingresar</button>
+    <br><br>
+    <a href="index.html">Volver</a>
+
+    <script>
+        function login() {
+            const correo = document.getElementById('correo').value;
+            const pass = document.getElementById('password').value;
+
+            // Validación de dominio (Ajustado según requerimiento 6 y 8)
+            if (!correo.includes('profesores.crecermas.cl') && !correo.includes('profesor.crecermas.cl')) {
+                return alert("Dominio de correo incorrecto");
+            }
+
+            const profesores = JSON.parse(localStorage.getItem('db_profesores')) || [];
+            const usuario = profesores.find(u => u.correo === correo && u.pass === pass);
+
+            if (usuario) {
+                window.location.href = 'cursos_profesores.html';
+            } else {
+                alert("Credenciales incorrectas o usuario no registrado");
+            }
+        }
+    </script>
+</body>
+</html>
